@@ -39,7 +39,7 @@ def check_url(url):
 
     if not url.startswith("https://"):
         score += 20
-        reasons.append("URL does not use HTTPS")
+        reasons.append("URL has HTTPS")
 
     ext = tldextract.extract(url)
     domain = ext.domain + "." + ext.suffix
