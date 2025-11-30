@@ -1,16 +1,13 @@
-# ==============================================================
+
 #  PhishShield by PingFloyd (YorkU)
-#  Simple Streamlit app to detect possible phishing emails/URLs
-# ==============================================================
+
 
 import streamlit as st
 import tldextract
-import pandas as pd  # Used for history table
+import pandas as pd  # Used for history table 
 
+#INITIALIZE SESSION STATE FOR DASHBOARD + HISTORY
 
-# =======================================================================
-#                INITIALIZE SESSION STATE FOR DASHBOARD + HISTORY
-# =======================================================================
 
 if "last_score" not in st.session_state:
     st.session_state["last_score"] = None
@@ -28,9 +25,7 @@ if "full_history" not in st.session_state:
     st.session_state["full_history"] = []
 
 
-# =======================================================================
-#                       PHISHING SIGNAL DEFINITIONS
-# =======================================================================
+#Definiations 
 
 SUSPICIOUS_KEYWORDS = [
     "security", "alert", "verify", "update", "login", "notice", "support",
@@ -61,9 +56,7 @@ SENSITIVE_WORDS = [
 ]
 
 
-# =======================================================================
-#                     RISK LEVEL LABEL (NO EMOJIS)
-# =======================================================================
+#risk level 
 
 def get_risk_label(score):
     if score < 30:
@@ -74,9 +67,7 @@ def get_risk_label(score):
         return "HIGH RISK"
 
 
-# =======================================================================
-#                           DOMAIN CHECK
-# =======================================================================
+#domain check 
 
 def check_domain(domain):
     score = 0
@@ -102,9 +93,7 @@ def check_domain(domain):
     return score, reasons
 
 
-# =======================================================================
-#                           URL CHECK
-# =======================================================================
+#url check 
 
 def check_url(url):
     score = 0
@@ -124,9 +113,7 @@ def check_url(url):
     return score, reasons
 
 
-# =======================================================================
-#                           URGENCY CHECK
-# =======================================================================
+#urgency check
 
 def check_urgency(text):
     score = 0
@@ -140,9 +127,7 @@ def check_urgency(text):
     return score, reasons
 
 
-# =======================================================================
-#                     SENSITIVE INFORMATION CHECK
-# =======================================================================
+#sensitive information check
 
 def check_sensitive_info(text):
     score = 0
@@ -156,9 +141,7 @@ def check_sensitive_info(text):
     return score, reasons
 
 
-# =======================================================================
-#                           MAIN ANALYZER
-# =======================================================================
+# main logic 
 
 def analyze_input(user_input, attachment):
     total_score = 0
@@ -184,9 +167,7 @@ def analyze_input(user_input, attachment):
     return total_score, reasons
 
 
-# =======================================================================
-#                        STREAMLIT UI + DESCRIPTION
-# =======================================================================
+#main app
 
 st.title("PhishShield by PingFloyd (YorkU)")
 
@@ -205,9 +186,7 @@ tab_check, tab_dashboard, tab_history = st.tabs([
 ])
 
 
-# =======================================================================
-#                           TAB 1 – CHECKER
-# =======================================================================
+#tab 1
 
 with tab_check:
     st.subheader("Phishing Checker")
@@ -259,9 +238,7 @@ with tab_check:
                 st.write(f"- {r}")
 
 
-# =======================================================================
-#                           TAB 2 – DASHBOARD
-# =======================================================================
+#tab 2
 
 with tab_dashboard:
     st.subheader("Session Dashboard")
@@ -296,9 +273,7 @@ with tab_dashboard:
             st.info("Run more scans to see a trend chart.")
 
 
-# =======================================================================
-#                        TAB 3 – HISTORY (TABLE + DOWNLOAD)
-# =======================================================================
+#tab 3 
 
 with tab_history:
     st.subheader("Full Scan History")
